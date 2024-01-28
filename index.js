@@ -113,4 +113,18 @@ function play_slide(){
   		observer.observe(target)
 
 
+/* Entrepreneurs Page GSAP Animations */ 
+
+let t1 = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".entrepreneurs_timeline-scroll-path",
+    start: "top 25%",
+    scrub: 1,
+  }
+});
+
+t1.fromTo(".entrepreneurs-freedom_timeline-step", {mixBlendMode:"luminosity"}, {mixBlendMode:"normal", stagger: 0.5, duration: 2});
+
+
+
 
