@@ -1,8 +1,8 @@
 // Membership Pricing Calculator
-const subscription = 50;
-const contributionUnder55 = 135;
-const contributionOver55 = 270;
-const contributionFamily = 405;
+const subscription = 55;
+const contributionUnder55 = 140;
+const contributionOver55 = 280;
+const contributionFamily = 420;
 
 document
   .getElementById("numMembers")
