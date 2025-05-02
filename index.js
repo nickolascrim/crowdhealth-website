@@ -1,79 +1,70 @@
 // Membership Pricing Calculator
+
 const subscription = 55;
-const contributionUnder55 = 140;
-const contributionOver55 = 280;
-const contributionFamily = 420;
 
-document
-  .getElementById("numMembers")
-  .addEventListener("input", calculateTotal);
+const pricing = {
+  "500": {
+    under55: 140,
+    over55: 280,
+    family: 420
+  },
+  "15000": {
+    under55: 40,
+    over55: 80,
+    family: 120
+  }
+};
 
-document
-  .getElementById("numOver55")
-  .addEventListener("input", calculateTotal);
+document.getElementById("numMembers").addEventListener("input", calculateTotal);
+document.getElementById("numOver55").addEventListener("input", calculateTotal);
+document.getElementById("commitmentLevel").addEventListener("change", calculateTotal);
+
+function getCommitmentLevel() {
+  return document.getElementById("commitmentLevel").value;
+}
 
 function calculateSubscription() {
-  // Get the number of members from the input
-  var numMembers = parseInt(document.getElementById("numMembers").value) || 0;
-  // Calculate the total subscription cost
-  var totalSubscription = numMembers * subscription;
-  // Display the calculated subscription
+  const numMembers = parseInt(document.getElementById("numMembers").value) || 0;
+  const totalSubscription = numMembers * subscription;
   document.getElementById("subscription").innerText = "$" + totalSubscription;
 
-  if (numMembers >= 9) {
-    // Set the custom pricing message display property to "flex"
-    document.getElementById("customPricing").style.display = "flex";
-  } else {
-    // Set the custom pricing message display property to "none"
-    document.getElementById("customPricing").style.display = "none";
-  }
+  document.getElementById("customPricing").style.display = numMembers >= 9 ? "flex" : "none";
 }
 
 function calculateContribution() {
-  // Get the number of members from the input
-  var numMembers = parseInt(document.getElementById("numMembers").value) || 0;
-  var numOver55 = parseInt(document.getElementById("numOver55").value) || 0;
-  
+  const numMembers = parseInt(document.getElementById("numMembers").value) || 0;
+  const numOver55 = parseInt(document.getElementById("numOver55").value) || 0;
+  const level = getCommitmentLevel();
+
   if (numOver55 > numMembers) {
     document.getElementById("contribution").innerText = "$0";
     document.getElementById("errorMessage").innerText = "Whoops! The number of 55+ can't be greater than the total number of signups.";
     return;
   } else {
-     document.getElementById("errorMessage").innerText = "";
+    document.getElementById("errorMessage").innerText = "";
   }
 
-  var numUnder55 = numMembers - numOver55;
-  var totalContribution = 0;
+  const numUnder55 = numMembers - numOver55;
+  const plan = pricing[level];
 
-  // Calculate the total contribution based on the number of members and age groups
+  let totalContribution = 0;
   if (numMembers <= 3) {
-    totalContribution =
-      numUnder55 * contributionUnder55 + numOver55 * contributionOver55;
+    totalContribution = (numUnder55 * plan.under55) + (numOver55 * plan.over55);
   } else {
-    totalContribution = contributionFamily;
+    totalContribution = plan.family;
   }
 
   document.getElementById("contribution").innerText = "$" + totalContribution;
 }
 
 function calculateTotal() {
-  // Call the two functions and get their results
   calculateSubscription();
   calculateContribution();
 
-  // Get the calculated values
-  var subscription = parseFloat(
-    document.getElementById("subscription").innerText.replace("$", "") || 0
-  );
-  var contribution = parseFloat(
-    document.getElementById("contribution").innerText.replace("$", "") || 0
-  );
+  const subscription = parseFloat(document.getElementById("subscription").innerText.replace("$", "")) || 0;
+  const contribution = parseFloat(document.getElementById("contribution").innerText.replace("$", "")) || 0;
 
-  // Sum the results
-  var total = subscription + contribution;
-
-  // Update the total span element
-  document.getElementById("total").innerText = "$" + total;
+  document.getElementById("total").innerText = "$" + (subscription + contribution);
 }
 
 
