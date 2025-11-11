@@ -1,6 +1,6 @@
 // Membership Pricing Calculator
 
-const subscription = 55;
+const subscription = 60;
 
 const pricing = {
   "500": {
@@ -9,9 +9,9 @@ const pricing = {
     family: 420
   },
   "15000": {
-    under55: 40,
-    over55: 80,
-    family: 120
+    under55: 25,
+    over55: 50,
+    family: 75
   }
 };
 
