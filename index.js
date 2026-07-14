@@ -67,6 +67,51 @@ function calculateTotal() {
   document.getElementById("total").innerText = "$" + (subscription + contribution);
 }
 
+function isCalculatorTalkButton(element) {
+  const button = element.closest("button, a");
+  if (!button) return null;
+
+  const text = button.textContent.replace(/\s+/g, " ").trim().toLowerCase();
+  const inlineClick = button.getAttribute("onclick") || "";
+  const href = button.getAttribute("href") || "";
+  const opensContactPage = inlineClick.indexOf("joincrowdhealth.com/contact") !== -1 || href.indexOf("/contact") !== -1;
+  const isTalkButton = text === "talk to an expert" || text === "talk to us";
+
+  return opensContactPage && isTalkButton ? button : null;
+}
+
+function findSchedulerModalTrigger(excludedButton) {
+  const triggers = document.querySelectorAll('a[href="#"][data-w-id]');
+
+  for (let i = 0; i < triggers.length; i += 1) {
+    const trigger = triggers[i];
+    const text = trigger.textContent.replace(/\s+/g, " ").trim().toLowerCase();
+
+    if (trigger !== excludedButton && (text === "talk to an expert" || text === "talk to us")) {
+      return trigger;
+    }
+  }
+
+  return null;
+}
+
+function setupCalculatorSchedulerModalBridge() {
+  document.addEventListener("click", function(event) {
+    const calculatorTalkButton = isCalculatorTalkButton(event.target);
+    if (!calculatorTalkButton) return;
+
+    const schedulerTrigger = findSchedulerModalTrigger(calculatorTalkButton);
+    if (!schedulerTrigger) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    schedulerTrigger.click();
+  }, true);
+}
+
+setupCalculatorSchedulerModalBridge();
+
 
 /* This will start auto-playing the slide when enter 100px in viewport from top…
 Also do not make slider Auto-Play in Webflow. */ 
