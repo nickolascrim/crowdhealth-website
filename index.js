@@ -1,6 +1,6 @@
 // Membership Pricing Calculator
 
-const subscription = 60;
+const subscription = 65;
 
 const pricing = {
   "500": {
@@ -79,23 +79,23 @@ function play_slide(){
     		// define loop - cycle through all tabs
    			function tabLoop() {
         		tabTimeout = setTimeout(function() {
-               	$('.w-slider-arrow-right').click()  // click resets timeout, so no need for interval
-         		}, 6000); 
+               $('.w-slider-arrow-right').click()  // click resets timeout, so no need for interval
+        			}, 6000); 
    			 }
 
     			// reset timeout if a tab is clicked
     			$('.w-slider-arrow-right').click(function() {
-        			clearTimeout(tabTimeout);
-        			tabLoop();
-        	});
-    	}
+        		clearTimeout(tabTimeout);
+        		tabLoop();
+       	});
+   	}
     
     
     	let observer = new IntersectionObserver((entries, observer) => { 
     			entries.forEach(entry => {
     						if(entry.isIntersecting){
-    										play_slide()
-            						observer.unobserve(entry.target);
+    								play_slide()
+            				observer.unobserve(entry.target);
     						}
     			});
   		}, {rootMargin: "0px 0px -100px 0px"}); 
