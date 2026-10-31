@@ -1,6 +1,6 @@
 // Membership Pricing Calculator
 
-const subscription = 60;
+const subscription = 65;
 
 const pricing = {
   "500": {
